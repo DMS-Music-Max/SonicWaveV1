@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Frequency Button Group -->
+    <Button
+        android:id="@+id/btn_frequency_up"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="Freq Up"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_intensity_up"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        android:layout_marginTop="50dp" />
+
+    <Button
+        android:id="@+id/btn_frequency_down"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="Freq Down"
+        app:layout_constraintStart_toStartOf="@id/btn_frequency_up"
+        app:layout_constraintTop_toBottomOf="@id/btn_frequency_up"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:id="@+id/tv_frequency_value"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="0 Hz"
+        android:gravity="center"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@id/btn_frequency_down"
+        app:layout_constraintTop_toBottomOf="@id/btn_frequency_down"
+        android:layout_marginTop="20dp" />
+
+    <!-- Intensity Button Group -->
+    <Button
+        android:id="@+id/btn_intensity_up"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="Int Up"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_frequency_up"
+        app:layout_constraintEnd_toStartOf="@id/btn_time_up"
+        android:layout_marginTop="50dp" />
+
+    <Button
+        android:id="@+id/btn_intensity_down"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="Int Down"
+        app:layout_constraintStart_toStartOf="@id/btn_intensity_up"
+        app:layout_constraintTop_toBottomOf="@id/btn_intensity_up"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:id="@+id/tv_intensity_value"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="0"
+        android:gravity="center"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@id/btn_intensity_down"
+        app:layout_constraintTop_toBottomOf="@id/btn_intensity_down"
+        android:layout_marginTop="20dp" />
+
+    <!-- Time Button Group -->
+    <Button
+        android:id="@+id/btn_time_up"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="Time Up"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_intensity_up"
+        app:layout_constraintEnd_toStartOf="@id/btn_start_stop"
+        android:layout_marginTop="50dp" />
+
+    <Button
+        android:id="@+id/btn_time_down"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="Time Down"
+        app:layout_constraintStart_toStartOf="@id/btn_time_up"
+        app:layout_constraintTop_toBottomOf="@id/btn_time_up"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:id="@+id/tv_time_value"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="0 s"
+        android:gravity="center"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@id/btn_time_down"
+        app:layout_constraintTop_toBottomOf="@id/btn_time_down"
+        android:layout_marginTop="20dp" />
+
+    <!-- Start/Stop Button -->
+    <Button
+        android:id="@+id/btn_start_stop"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="Start"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_time_up"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="50dp" />
+
+    <!-- Placeholder for Buttons 1 to 20 -->
+    <LinearLayout
+        android:id="@+id/button_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/tv_frequency_value"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="100dp"
+        android:padding="20dp">
+        <!-- Add 20 buttons programmatically or statically as needed -->
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
