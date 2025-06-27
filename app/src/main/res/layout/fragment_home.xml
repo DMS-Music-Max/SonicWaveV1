@@ -2,14 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
     <!-- Frequency Button Group -->
     <Button
         android:id="@+id/btn_frequency_up"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="160dp"
+        android:layout_height="90dp"
         android:text="Freq Up"
+        android:background="@drawable/rounded_button"
+        android:textColor="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btn_intensity_up"
@@ -18,16 +21,18 @@
 
     <Button
         android:id="@+id/btn_frequency_down"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="160dp"
+        android:layout_height="90dp"
         android:text="Freq Down"
+        android:background="@drawable/rounded_button"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="@id/btn_frequency_up"
         app:layout_constraintTop_toBottomOf="@id/btn_frequency_up"
         android:layout_marginTop="20dp" />
 
     <TextView
         android:id="@+id/tv_frequency_value"
-        android:layout_width="100dp"
+        android:layout_width="160dp"
         android:layout_height="50dp"
         android:text="0 Hz"
         android:gravity="center"
@@ -39,9 +44,11 @@
     <!-- Intensity Button Group -->
     <Button
         android:id="@+id/btn_intensity_up"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="160dp"
+        android:layout_height="90dp"
         android:text="Int Up"
+        android:background="@drawable/rounded_button"
+        android:textColor="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_frequency_up"
         app:layout_constraintEnd_toStartOf="@id/btn_time_up"
@@ -49,16 +56,18 @@
 
     <Button
         android:id="@+id/btn_intensity_down"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="160dp"
+        android:layout_height="90dp"
         android:text="Int Down"
+        android:background="@drawable/rounded_button"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="@id/btn_intensity_up"
         app:layout_constraintTop_toBottomOf="@id/btn_intensity_up"
         android:layout_marginTop="20dp" />
 
     <TextView
         android:id="@+id/tv_intensity_value"
-        android:layout_width="100dp"
+        android:layout_width="160dp"
         android:layout_height="50dp"
         android:text="0"
         android:gravity="center"
@@ -70,9 +79,11 @@
     <!-- Time Button Group -->
     <Button
         android:id="@+id/btn_time_up"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="160dp"
+        android:layout_height="90dp"
         android:text="Time Up"
+        android:background="@drawable/rounded_button"
+        android:textColor="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_intensity_up"
         app:layout_constraintEnd_toStartOf="@id/btn_start_stop"
@@ -80,16 +91,18 @@
 
     <Button
         android:id="@+id/btn_time_down"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="160dp"
+        android:layout_height="90dp"
         android:text="Time Down"
+        android:background="@drawable/rounded_button"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="@id/btn_time_up"
         app:layout_constraintTop_toBottomOf="@id/btn_time_up"
         android:layout_marginTop="20dp" />
 
     <TextView
         android:id="@+id/tv_time_value"
-        android:layout_width="100dp"
+        android:layout_width="160dp"
         android:layout_height="50dp"
         android:text="0 s"
         android:gravity="center"
@@ -101,9 +114,11 @@
     <!-- Start/Stop Button -->
     <Button
         android:id="@+id/btn_start_stop"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="160dp"
+        android:layout_height="90dp"
         android:text="Start"
+        android:background="@drawable/rounded_button"
+        android:textColor="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_time_up"
         app:layout_constraintEnd_toEndOf="parent"
@@ -112,7 +127,7 @@
     <!-- Placeholder for Buttons 1 to 20 -->
     <LinearLayout
         android:id="@+id/button_group"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/tv_frequency_value"
@@ -124,3 +139,4 @@
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

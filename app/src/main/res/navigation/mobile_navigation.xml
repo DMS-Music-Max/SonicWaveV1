@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.sonicwavejune23.ui.home.HomeFragment"
+        android:name="com.example.sonicwavev1.ui.home.HomeFragment"
         android:label="Home"
         app:layout="@layout/fragment_home" />
 
@@ -14,13 +14,13 @@
     <!-- Example placeholders for Dashboard and Notifications -->
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.sonicwavejune23.ui.dashboard.DashboardFragment"
+        android:name="com.example.sonicwavev1.ui.dashboard.DashboardFragment"
         android:label="Dashboard"
         app:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.sonicwavejune23.ui.notifications.NotificationsFragment"
+        android:name="com.example.sonicwavev1.ui.notifications.NotificationsFragment"
         android:label="Notifications"
         app:layout="@layout/fragment_notifications" />
 

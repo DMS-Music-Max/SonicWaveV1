@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "SonicWaveJune23"
+rootProject.name = "SonicWaveV1"
 include(":app")
