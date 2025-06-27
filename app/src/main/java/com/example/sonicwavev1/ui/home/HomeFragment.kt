@@ -17,13 +17,14 @@ import android.media.AudioFocusRequest
 import android.util.Log
 import com.example.sonicwavev1.R
 import kotlin.math.sin
-import kotlin.concurrent.thread
+import kotlin.math.pow
+import kotlin.math.max
 
 class HomeFragment : Fragment() {
 
     private var frequency = 0
     private var intensity = 0
-    private var time = 0
+    private var time = 0 // Stored in seconds
     private var isStarted = false // Track Start/Stop state
     private val handler = Handler(Looper.getMainLooper())
     private var isLongPress = false
@@ -67,8 +68,9 @@ class HomeFragment : Fragment() {
         val btnTimeDown: Button = view.findViewById(R.id.btn_time_down)
         val tvTime: TextView = view.findViewById(R.id.tv_time_value)
 
-        // Start/Stop control
+        // Start/Stop and Clear controls
         val btnStartStop: Button = view.findViewById(R.id.btn_start_stop)
+        val btnClear: Button = view.findViewById(R.id.btn_clear)
 
         // Frequency button listeners
         btnFrequencyUp.setOnClickListener {
@@ -81,8 +83,8 @@ class HomeFragment : Fragment() {
             updateFrequencyDisplay(tvFrequency)
             playTapSound()
         }
-        setupLongPress(btnFrequencyUp, { frequency += 1 }, tvFrequency, ::updateFrequencyDisplay)
-        setupLongPress(btnFrequencyDown, { if (frequency > 0) frequency -= 1 }, tvFrequency, ::updateFrequencyDisplay)
+        setupLongPress(btnFrequencyUp, { deltaT -> frequency += (deltaT * deltaT).toInt() }, tvFrequency, ::updateFrequencyDisplay)
+        setupLongPress(btnFrequencyDown, { deltaT -> if (frequency > 0) frequency = max(0, frequency - (deltaT * deltaT).toInt()) }, tvFrequency, ::updateFrequencyDisplay)
 
         // Intensity button listeners
         btnIntensityUp.setOnClickListener {
@@ -95,8 +97,8 @@ class HomeFragment : Fragment() {
             updateIntensityDisplay(tvIntensity)
             playTapSound()
         }
-        setupLongPress(btnIntensityUp, { intensity += 1 }, tvIntensity, ::updateIntensityDisplay)
-        setupLongPress(btnIntensityDown, { if (intensity > 0) intensity -= 1 }, tvIntensity, ::updateIntensityDisplay)
+        setupLongPress(btnIntensityUp, { deltaT -> intensity += (deltaT * deltaT).toInt() }, tvIntensity, ::updateIntensityDisplay)
+        setupLongPress(btnIntensityDown, { deltaT -> if (intensity > 0) intensity = max(0, intensity - (deltaT * deltaT).toInt()) }, tvIntensity, ::updateIntensityDisplay)
 
         // Time button listeners
         btnTimeUp.setOnClickListener {
@@ -109,8 +111,8 @@ class HomeFragment : Fragment() {
             updateTimeDisplay(tvTime)
             playTapSound()
         }
-        setupLongPress(btnTimeUp, { time += 1 }, tvTime, ::updateTimeDisplay)
-        setupLongPress(btnTimeDown, { if (time > 0) time -= 1 }, tvTime, ::updateTimeDisplay)
+        setupLongPress(btnTimeUp, { deltaT -> time += (deltaT * deltaT).toInt() }, tvTime, ::updateTimeDisplay)
+        setupLongPress(btnTimeDown, { deltaT -> if (time > 0) time = max(0, time - (deltaT * deltaT).toInt()) }, tvTime, ::updateTimeDisplay)
 
         // Start/Stop button listener
         btnStartStop.setOnClickListener {
@@ -122,6 +124,23 @@ class HomeFragment : Fragment() {
             } else {
                 stopTonePlayback()
             }
+        }
+
+        // Clear button listener
+        btnClear.setOnClickListener {
+            frequency = 0
+            intensity = 0
+            time = 0
+            updateFrequencyDisplay(tvFrequency)
+            updateIntensityDisplay(tvIntensity)
+            updateTimeDisplay(tvTime)
+            if (isStarted) {
+                stopTonePlayback()
+                isStarted = false
+                btnStartStop.text = "Start"
+            }
+            playTapSound()
+            Log.d(TAG, "Clear button pressed: Reset frequency, intensity, time to 0")
         }
 
         return view
@@ -178,17 +197,20 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateTimeDisplay(textView: TextView) {
-        textView.text = "$time s"
+        val minutes = time / 60.0
+        textView.text = String.format("分钟 %.2f", minutes) // Display as "分钟 xx.xx"
     }
 
-    private fun setupLongPress(button: Button, action: () -> Unit, textView: TextView, updateDisplay: (TextView) -> Unit) {
+    private fun setupLongPress(button: Button, action: (Float) -> Unit, textView: TextView, updateDisplay: (TextView) -> Unit) {
+        var startTime: Long = 0 // Track start of long press
         val longPressRunnable = object : Runnable {
             override fun run() {
                 if (isLongPress) {
-                    action()
+                    val deltaT = (System.currentTimeMillis() - startTime) / 1000f // Time in seconds
+                    action(deltaT) // Apply non-linear increment based on deltaT
                     updateDisplay(textView)
                     playFastSound()
-                    Log.d(TAG, "Long press: Updated value and played sound")
+                    Log.d(TAG, "Long press: Updated value (deltaT=$deltaT) and played sound")
                     handler.postDelayed(this, longPressInterval)
                 }
             }
@@ -196,6 +218,7 @@ class HomeFragment : Fragment() {
 
         button.setOnLongClickListener {
             isLongPress = true
+            startTime = System.currentTimeMillis() // Record start time
             handler.post(longPressRunnable)
             true
         }
@@ -208,7 +231,6 @@ class HomeFragment : Fragment() {
             false
         }
     }
-
 
     private fun startTonePlayback() {
         if (frequency <= 0 || time <= 0) {
@@ -243,7 +265,7 @@ class HomeFragment : Fragment() {
         stopPlayback = false
         val sampleRate = 44100
         val volume = if (intensity > 100) 1f else intensity / 100f
-        val durationMs = time * 1000L
+        val durationMs = time * 1000L // time in seconds
 
         // Setup AudioTrack
         val bufferSize = AudioTrack.getMinBufferSize(
@@ -272,7 +294,7 @@ class HomeFragment : Fragment() {
         audioTrack?.play()
         Log.d(TAG, "Streaming tone at $frequency Hz")
 
-        thread {
+        Thread {
             val buffer = ShortArray(bufferSize)
             val freqHz = frequency.toDouble()
             val twoPi = 2 * Math.PI
@@ -297,7 +319,7 @@ class HomeFragment : Fragment() {
                 isStarted = false
                 view?.findViewById<Button>(R.id.btn_start_stop)?.text = "Start"
             }
-        }
+        }.start()
     }
 
     private fun stopTonePlayback() {
@@ -306,10 +328,10 @@ class HomeFragment : Fragment() {
         audioTrack?.release()
         audioTrack = null
         audioFocusRequest?.let { focusRequest ->
-            audioManager?.abandonAudioFocusRequest(focusRequest) // Fixed: Safe handling of nullable audioFocusRequest
+            audioManager?.abandonAudioFocusRequest(focusRequest)
         }
         audioFocusRequest = null
-        handler.removeCallbacksAndMessages(null) // Clear any pending stop tasks
+        handler.removeCallbacksAndMessages(null)
         Log.d(TAG, "Tone playback stopped")
     }
 
@@ -317,8 +339,7 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         handler.removeCallbacksAndMessages(null)
         soundPool.release()
-        stopTonePlayback() // Ensure tone playback stops
+        stopTonePlayback()
         Log.d(TAG, "SoundPool and AudioTrack released")
     }
 }
-
