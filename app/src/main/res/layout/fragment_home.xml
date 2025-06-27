@@ -104,7 +104,7 @@
         android:id="@+id/tv_time_value"
         android:layout_width="160dp"
         android:layout_height="50dp"
-        android:text="0 s"
+        android:text="分钟 0.00"
         android:gravity="center"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@id/btn_time_down"
@@ -124,6 +124,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="50dp" />
 
+    <!-- Clear Button -->
+    <Button
+        android:id="@+id/btn_clear"
+        android:layout_width="160dp"
+        android:layout_height="90dp"
+        android:text="Clear"
+        android:background="@drawable/rounded_button"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="@id/btn_start_stop"
+        app:layout_constraintTop_toBottomOf="@id/btn_start_stop"
+        android:layout_marginTop="20dp" />
+
     <!-- Placeholder for Buttons 1 to 20 -->
     <LinearLayout
         android:id="@+id/button_group"
@@ -139,4 +151,3 @@
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
